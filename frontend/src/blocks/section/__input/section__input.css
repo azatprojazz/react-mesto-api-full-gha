@@ -1,0 +1,21 @@
+.section__input {
+  box-sizing: border-box;
+  width: 100%;
+  padding-bottom: 9px;
+  color: white;
+  border: none;
+  border-bottom: 2px solid rgba(204, 204, 204, 1);
+  background-color: black;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.21;
+}
+
+.section__input::placeholder {
+  color: rgba(204, 204, 204, 1);
+  font-weight: 400;
+}
+
+.section__input:nth-of-type(2) {
+  margin-top: 42px;
+}

@@ -1,0 +1,11 @@
+.popup__form {
+  display: flex;
+  flex-flow: column;
+}
+
+@media screen and (max-width: 568px) {
+  .popup__form {
+    align-items: center;
+    min-width: 238px;
+  }
+}

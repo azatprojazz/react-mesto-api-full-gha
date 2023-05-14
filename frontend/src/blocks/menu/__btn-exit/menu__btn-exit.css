@@ -1,0 +1,9 @@
+.menu__btn-exit {
+  margin: 0;
+  padding: 0;
+  color: #a9a9a9;
+  border: none;
+  outline: none;
+  background: black;
+  font-weight: 400;
+}

@@ -1,0 +1,7 @@
+.section__question {
+  min-width: 190px;
+  min-height: 22px;
+  color: white;
+  font-size: 14px;
+  line-height: 1.22;
+}

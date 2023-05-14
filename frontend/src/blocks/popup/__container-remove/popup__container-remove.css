@@ -1,0 +1,9 @@
+.popup__container-remove {
+  min-height: 117px;
+}
+
+@media screen and (max-width: 568px) {
+  .popup__container-remove {
+    min-height: 106px;
+  }
+}

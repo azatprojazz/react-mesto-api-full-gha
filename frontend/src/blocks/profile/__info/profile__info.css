@@ -1,0 +1,24 @@
+.profile__info {
+  display: grid;
+  grid-template-areas:
+    'title btn'
+    'subtitle subtitle';
+  gap: 8px 24px;
+  align-items: baseline;
+  min-width: 336px;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 678px) {
+  .profile__info {
+    justify-content: center;
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .profile__info {
+    gap: 6px 10px;
+    min-width: 320px;
+  }
+}

@@ -1,0 +1,17 @@
+.page {
+  display: flex;
+  flex-flow: column;
+  min-width: 320px;
+  max-width: 880px;
+  min-height: 100vh;
+  margin: 0 auto;
+  color: white;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
