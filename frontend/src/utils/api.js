@@ -22,7 +22,7 @@ class Api {
 
   // Получает информацию о пользователе
   getUserInfo() {
-    return this._fetch('/users/me',);
+    return this._fetch('/users/me');
   }
 
   // Обновляет информацию о пользователе (имя и описание)
@@ -35,7 +35,7 @@ class Api {
 
   // Получает начальные карточки
   getInitialCards() {
-    return this._fetch('/cards',);
+    return this._fetch('/cards');
   }
 
   // Добавляет новую карточку с указанными названием и ссылкой на изображение
