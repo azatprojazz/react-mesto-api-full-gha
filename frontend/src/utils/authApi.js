@@ -51,5 +51,5 @@ class AuthApi {
 
 // Экспортирует экземпляр класса AuthApi с заданным базовым URL
 export const authApi = new AuthApi({
-  baseUrl: 'http://api.mesto.azatprojazz.nomoredomains.monster',
+  baseUrl: 'https://api.mesto.azatprojazz.nomoredomains.monster',
 });

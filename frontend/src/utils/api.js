@@ -71,7 +71,7 @@ class Api {
 
 // Экспортирует экземпляр класса Api с заданным базовым URL и заголовками
 export const api = new Api({
-  baseUrl: 'http://api.mesto.azatprojazz.nomoredomains.monster',
+  baseUrl: 'https://api.mesto.azatprojazz.nomoredomains.monster',
   headers: {
     'Content-Type': 'application/json',
   },
