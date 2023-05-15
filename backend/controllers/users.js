@@ -15,7 +15,7 @@ const { CREATED_201 } = require('../utils/constants');
 const getUsers = async (_, res, next) => {
   try {
     const users = await User.find({});
-    res.send({ data: users });
+    res.send(users);
   } catch (err) {
     next(err);
   }
@@ -78,8 +78,12 @@ const login = async (req, res, next) => {
   }
 };
 
-const logout = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Выход из аккаунта' });
+const logout = (req, res, next) => {
+  try {
+    res.clearCookie('jwt').send({ message: 'Выход из аккаунта' });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const getUserById = async (req, res, next) => {
@@ -88,7 +92,7 @@ const getUserById = async (req, res, next) => {
     if (!user) {
       throw new NotFoundError('Пользователя нет в базе');
     }
-    res.send({ data: user });
+    res.send(user);
   } catch (err) {
     if (err instanceof CastError) {
       next(new BadRequestError('Неверный формат идентификатора пользователя'));
@@ -107,7 +111,7 @@ const updateUser = async (req, res, updateData, next) => {
     if (!user) {
       throw new NotFoundError('Пользователь с указанным ID не найден');
     }
-    res.send({ data: user });
+    res.send(user);
   } catch (err) {
     if (err instanceof ValidationError) {
       const errorMessage = Object.values(err.errors)

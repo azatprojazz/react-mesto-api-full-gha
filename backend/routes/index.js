@@ -17,7 +17,7 @@ router.post('/signin', userLoginValidation, login);
 router.use('/users', auth, users);
 router.use('/cards', auth, cards);
 
-router.get('/signout', auth, logout);
+router.post('/signout', auth, logout);
 
 router.use('*', auth, (req, res, next) => {
   next(new NotFoundError('Запрашиваемый ресурс не найден'));

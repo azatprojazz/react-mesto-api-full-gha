@@ -14,6 +14,7 @@ class Api {
   async _fetch(url, options = {}) {
     const res = await fetch(`${this._baseUrl}${url}`, {
       ...options,
+      credentials: 'include',
       headers: this._headers,
     });
     return this._response(res);
@@ -21,7 +22,7 @@ class Api {
 
   // Получает информацию о пользователе
   getUserInfo() {
-    return this._fetch('/users/me');
+    return this._fetch('/users/me',);
   }
 
   // Обновляет информацию о пользователе (имя и описание)
@@ -34,7 +35,7 @@ class Api {
 
   // Получает начальные карточки
   getInitialCards() {
-    return this._fetch('/cards');
+    return this._fetch('/cards',);
   }
 
   // Добавляет новую карточку с указанными названием и ссылкой на изображение
@@ -70,9 +71,8 @@ class Api {
 
 // Экспортирует экземпляр класса Api с заданным базовым URL и заголовками
 export const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-59',
+  baseUrl: 'http://api.mesto.azatprojazz.nomoredomains.monster',
   headers: {
-    authorization: '7263adae-3071-416f-9c3c-e2fe3a770300',
     'Content-Type': 'application/json',
   },
 });

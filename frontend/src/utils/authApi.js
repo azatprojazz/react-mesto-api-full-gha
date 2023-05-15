@@ -30,20 +30,28 @@ class AuthApi {
   loginUser(email, password) {
     return this._fetch('/signin', {
       method: 'POST',
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
   }
 
+  logoutUser() {
+    return this._fetch('/signout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+  }
+
   // Проверяет валидность токена и возвращает данные пользователя
-  validateToken(token) {
+  validateToken() {
     return this._fetch('/users/me', {
       method: 'GET',
-      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
     });
   }
 }
 
 // Экспортирует экземпляр класса AuthApi с заданным базовым URL
 export const authApi = new AuthApi({
-  baseUrl: 'https://auth.nomoreparties.co',
+  baseUrl: 'http://api.mesto.azatprojazz.nomoredomains.monster',
 });

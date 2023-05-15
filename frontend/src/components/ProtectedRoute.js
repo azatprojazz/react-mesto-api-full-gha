@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 // Принимает другой компонент в качестве пропса и может передать ему неограниченное число пропсов
 const ProtectedRouteElement = ({ component: Component, ...props }) => {
   // Если пользователь авторизован, рендерит переданный компонент, иначе перенаправляет на страницу входа
-  return props.loggedIn ? <Component {...props} /> : <Navigate to="/sign-in" replace />;
+  return props.loggedIn ? <Component {...props} /> : <Navigate to="/signin" replace />;
 };
 
 export default ProtectedRouteElement;

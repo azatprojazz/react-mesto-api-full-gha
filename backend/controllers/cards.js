@@ -11,7 +11,7 @@ const {
 const getCards = async (_, res, next) => {
   try {
     const cards = await Card.find({}).populate(['owner', 'likes']);
-    res.send({ data: cards });
+    res.send(cards);
   } catch (err) {
     next(err);
   }
@@ -23,7 +23,7 @@ const createCard = async (req, res, next) => {
   try {
     const card = await Card.create({ name, link, owner: req.user._id });
     const populatedCard = await card.populate(['owner']);
-    res.status(CREATED_201).send({ data: populatedCard });
+    res.status(CREATED_201).send(populatedCard);
   } catch (err) {
     if (err instanceof ValidationError) {
       const errorMessage = Object.values(err.errors)
@@ -48,7 +48,7 @@ const deleteCardById = async (req, res, next) => {
       return;
     }
     await card.deleteOne();
-    res.send({ data: card });
+    res.send(card);
   } catch (err) {
     if (err instanceof CastError) {
       next(new BadRequestError('Неверный формат идентификатора карточки'));

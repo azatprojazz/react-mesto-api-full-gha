@@ -1,5 +1,5 @@
 // Импорт React и хуков
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 // Импорт компонентов из библиотеки react-router-dom
 import { Routes, Route, useNavigate } from 'react-router-dom';
@@ -49,7 +49,6 @@ function App() {
 
   // Хук для навигации
   const navigate = useNavigate();
-
   // Проверяем, открыт ли хотя бы один попап
   const isAnyPopupOpen =
     isEditProfilePopupOpen ||
@@ -58,12 +57,32 @@ function App() {
     isInfoTooltipOpen ||
     (selectedCard && selectedCard.link);
 
+  // Функция для закрытия всех всплывающих окон
+
+  const closeAllPopups = useCallback(
+    (evt) => {
+      setIsEditAvatarPopupOpen(false);
+      setIsEditProfilePopupOpen(false);
+      setIsAddPlacePopupOpen(false);
+      setIsInfoTooltipOpen(false);
+      setSelectedCard({
+        ...selectedCard,
+        isOpen: false,
+      });
+    },
+    [selectedCard]
+  );
+
   // Функция для закрытия всплывающих окон по нажатию на Escape
-  const handleEscClose = (evt) => {
-    if (evt.code === 'Escape' && isAnyPopupOpen) {
-      closeAllPopups();
-    }
-  };
+
+  const handleEscClose = useCallback(
+    (evt) => {
+      if (evt.code === 'Escape' && isAnyPopupOpen) {
+        closeAllPopups();
+      }
+    },
+    [closeAllPopups, isAnyPopupOpen]
+  );
 
   // Хук useEffect для добавления и удаления обработчика событий keydown
   // при монтировании и размонтировании компонента
@@ -72,17 +91,17 @@ function App() {
     return () => {
       window.removeEventListener('keydown', handleEscClose);
     };
-  }, [isAnyPopupOpen]);
+  }, [handleEscClose, isAnyPopupOpen]);
 
-  // Получение данных пользователя и карточек при успешном входе
-  // Запрашиваем данные только если пользователь авторизован (loggedIn === true)
+  // Загрузка данных о пользователе и его карточках при входе в систему
   useEffect(() => {
     const fetchData = async () => {
       if (loggedIn) {
         try {
           const [userData, cardsData] = await Promise.all([api.getUserInfo(), api.getInitialCards()]);
           setCurrentUser(userData);
-          setCards((prevCards) => [...prevCards, ...cardsData]);
+          const cardsDataReversed = cardsData.reverse();
+          setCards(cardsDataReversed);
         } catch (err) {
           console.log(err);
         }
@@ -92,18 +111,16 @@ function App() {
     fetchData();
   }, [loggedIn]);
 
-  // Проверка токена при монтировании компонента
-  // Валидация токена и установка состояния loggedIn и userEmail при успешной валидации
+  // Проверка валидности токена при старте приложения
   useEffect(() => {
     const validateToken = async () => {
-      const token = localStorage.getItem('token');
-
-      if (token) {
+      const loggedIn = localStorage.getItem('loggedIn');
+      if (loggedIn) {
         try {
-          const { data } = await authApi.validateToken(token);
-          if (data) {
+          const userData = await authApi.validateToken();
+          if (userData) {
             setLoggedIn(true);
-            setUserEmail(data.email);
+            setUserEmail(userData.email);
             navigate('/', { replace: true });
           }
         } catch (err) {
@@ -183,7 +200,7 @@ function App() {
   async function handleRegisterClick(email, password) {
     try {
       await authApi.registerUser(email, password);
-      navigate('/sign-in', { replace: true });
+      navigate('/signin', { replace: true });
       setIsRegistrationSuccess(true);
       handleSignup('Вы успешно зарегистрировались!');
     } catch (err) {
@@ -198,8 +215,9 @@ function App() {
   async function handleLoginClick(email, password) {
     try {
       const data = await authApi.loginUser(email, password);
-      if (data.token) {
-        localStorage.setItem('token', data.token);
+      if (data) {
+        console.log(data);
+        localStorage.setItem('loggedIn', 'true');
         setLoggedIn(true);
         setUserEmail(email);
         navigate('/', { replace: true });
@@ -211,16 +229,23 @@ function App() {
     }
   }
 
-  // Отображение индикатора загрузки, если данные еще не получены
+  // Если данные загружаются, показываем индикатор загрузки
   if (isLoading) {
     return <Loader />;
   }
 
   // Функция для выхода из аккаунта
   function handleSignout() {
-    setLoggedIn(false);
-    localStorage.removeItem('token');
-    navigate('/sign-in', { replace: true });
+    authApi
+      .logoutUser()
+      .then(() => {
+        setLoggedIn(false);
+        localStorage.removeItem('loggedIn');
+        navigate('/signin', { replace: true });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   // Функция для отображения сообщения после попытки регистрации или входа
@@ -229,15 +254,17 @@ function App() {
     setIsInfoTooltipOpen(true);
   }
 
-  // Функции для открытия всплывающих окон
+  // Функция для открытия попапа изменения аватара
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   }
 
+  // Фукнция для открытия попапа изменения профиля
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
 
+  // Функция для открытия попапа добавления новой карточки
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
@@ -258,27 +285,15 @@ function App() {
     }
   }
 
-  // Функция для закрытия всех всплывающих окон
-  function closeAllPopups() {
-    setIsEditAvatarPopupOpen(false);
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsInfoTooltipOpen(false);
-    setSelectedCard({
-      ...selectedCard,
-      isOpen: false,
-    });
-  }
-
-  // Рендер компонента App
+  // Возвращаем разметку приложения
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <>
         <div className="page">
           <Header userEmail={userEmail} onSignout={handleSignout} />
           <Routes>
-            <Route path="/sign-up" element={<Register onSignup={handleRegisterClick} />} />
-            <Route path="/sign-in" element={<Login onSignin={handleLoginClick} />} />
+            <Route path="/signup" element={<Register onSignup={handleRegisterClick} />} />
+            <Route path="/signin" element={<Login onSignin={handleLoginClick} />} />
             <Route
               exact
               path="/"

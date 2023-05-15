@@ -7,17 +7,17 @@ function Navbar({ userEmail, onSignout }) {
     <nav className="menu">
       <Routes>
         <Route
-          path="/sign-up"
+          path="/signup"
           element={
-            <NavLink to="/sign-in" className="menu__link opacity-on-hover">
+            <NavLink to="/signin" className="menu__link opacity-on-hover">
               Войти
             </NavLink>
           }
         />
         <Route
-          path="/sign-in"
+          path="/signin"
           element={
-            <NavLink to="/sign-up" className="menu__link opacity-on-hover">
+            <NavLink to="/signup" className="menu__link opacity-on-hover">
               Регистрация
             </NavLink>
           }

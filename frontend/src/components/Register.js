@@ -49,7 +49,7 @@ function Register({ onSignup }) {
       </form>
       <p className="section__question">
         Уже зарегистрированы?{' '}
-        <Link to="/sign-in" className="section__link opacity-on-hover">
+        <Link to="/signin" className="section__link opacity-on-hover">
           Войти
         </Link>
       </p>
