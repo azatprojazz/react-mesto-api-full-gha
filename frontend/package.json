@@ -13,7 +13,7 @@
     "spinners-react": "^1.0.7",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://azatprojazz.github.io/react-mesto-auth",
+  "homepage": "https://mesto.azatprojazz.nomoredomains.monster",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
