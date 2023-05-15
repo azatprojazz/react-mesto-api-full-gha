@@ -13,6 +13,7 @@ class AuthApi {
   async _fetch(url, options = {}) {
     const res = await fetch(`${this._baseUrl}${url}`, {
       ...options,
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json', ...options.headers },
     });
     return this._response(res);
@@ -30,7 +31,6 @@ class AuthApi {
   loginUser(email, password) {
     return this._fetch('/signin', {
       method: 'POST',
-      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
   }
@@ -38,7 +38,6 @@ class AuthApi {
   logoutUser() {
     return this._fetch('/signout', {
       method: 'POST',
-      credentials: 'include',
     });
   }
 
@@ -46,7 +45,6 @@ class AuthApi {
   validateToken() {
     return this._fetch('/users/me', {
       method: 'GET',
-      credentials: 'include',
     });
   }
 }
