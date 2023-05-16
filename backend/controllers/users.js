@@ -11,6 +11,7 @@ const NotFoundError = require('../errors/NotFound');
 const User = require('../models/user');
 
 const { CREATED_201 } = require('../utils/constants');
+const { JWT_SECRET } = require('../utils/config');
 
 const getUsers = async (_, res, next) => {
   try {
@@ -63,7 +64,7 @@ const login = async (req, res, next) => {
   try {
     const user = await User.findUserByCredentials(email, password);
     // Создаем JWT токен
-    const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+    const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' });
     // Отправляем токен в куки, браузер автоматически сохранит его
     res
       .cookie('jwt', token, {
