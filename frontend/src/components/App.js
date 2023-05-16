@@ -216,7 +216,6 @@ function App() {
     try {
       const data = await authApi.loginUser(email, password);
       if (data) {
-        console.log(data);
         localStorage.setItem('loggedIn', 'true');
         setLoggedIn(true);
         setUserEmail(email);
