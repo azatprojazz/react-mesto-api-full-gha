@@ -49,6 +49,7 @@ const createUser = async (req, res, next) => {
         .map((error) => error.message)
         .join(', ');
       next(new BadRequestError(`Переданы некорректные данные: ${errorMessage}`));
+      return;
     }
     if (err.code === 11000) {
       next(new ConflictError('Такой пользователь уже существует в базе данных'));
