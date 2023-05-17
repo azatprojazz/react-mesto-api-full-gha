@@ -10,7 +10,7 @@ const {
   HTTP_STATUS_CONFLICT: CONFLICT_409,
 } = http2.constants;
 
-const regExp = /https?:\/\/\w{0,3}\.?[\w\-.]+\.\w+([/\w\d\-._~:/?\]@!$&'()*+,;=]*)*$/m;
+const regExp = /^(https?|ftp):\/\/([a-zA-Z0-9_-]+(?:(?:\.[a-zA-Z0-9_-]+)+))(:[0-9]{1,5})?(\/[^\s]*)?$/m;
 
 module.exports = {
   CREATED_201,
