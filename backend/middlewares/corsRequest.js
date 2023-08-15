@@ -2,7 +2,6 @@
 const allowedCors = [
   'https://mesto.azatprojazz.nomoredomains.monster',
   'http://mesto.azatprojazz.nomoredomains.monster',
-  'https://localhost:3000',
   'http://localhost:3000',
 ];
 
