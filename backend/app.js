@@ -31,6 +31,4 @@ app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors());
 app.use(errorMiddleware);
 
-app.listen(PORT, () => {
-  console.log(`Сервер слушает порт => ${PORT}`);
-});
+app.listen(PORT);
