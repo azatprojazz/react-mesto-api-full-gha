@@ -7,11 +7,11 @@ const router = require('./routes/index');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const corsRequest = require('./middlewares/corsRequest');
-const { PORT } = require('./utils/config');
+const { PORT, BD_URL } = require('./utils/config');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/mestodb', {
+mongoose.connect(BD_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
